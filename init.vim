@@ -51,7 +51,7 @@ call plug#begin('~/appdata/local/nvim/plugged')
     Plug 'davidhalter/jedi-vim'
 
     "Python plugin
-    " Plug 'python-mode/python-mode', { 'branch': 'develop' }
+    Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
     " Trenger å fikse noe leader greier for å bruke easymotion
     " "Plug 'Lokaltog/vim-easymotion'
@@ -98,8 +98,9 @@ let g:deoplete#enable_at_startup = 1
 " ULTI SNIPS SETTINGS
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-k>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+let g:UltiSnipsListSnippets="<c-tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
@@ -135,14 +136,13 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "PYTHON
-" let g:pymode_python='python3'
+ let g:pymode_python='python3'
 
-
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-    return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-endfunction
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" inoremap <silent>
+" function! s:my_cr_function()
+"     return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+" endfunction
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 
 
