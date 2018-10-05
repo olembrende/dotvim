@@ -1,7 +1,8 @@
 cd C:\Users\olema\Documents
 
 let g:python3_host_prog='C:/Python37/python.exe'
-
+" let g:python3_host_prog='C:/ProgramData/Anaconda3/python.exe'
+"
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
@@ -103,7 +104,8 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsEditSplit="vertical"
+let g:UltiSnipsEditSplit="horizontal"
 
 
 "Relative line numbers
@@ -129,6 +131,13 @@ set autoindent
 set expandtab
 " set cursorline
 
+" Pass a dictionary to set multiple options
+call deoplete#custom#option({
+\ 'auto_complete_delay': 0
+\ })
+
+
+
 " Split navigation
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -136,7 +145,14 @@ nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
 "PYTHON
- let g:pymode_python='python3'
+let g:pymode_python='python3'
+" let g:pymode_viritualenv_path = "C:\ProgramData\Anaconda3"
+" Open split from Python mode to the right instead of below
+" autocmd BufEnter __run____doc__ :wincmd L
+autocmd BufEnter __run__,__doc__ :wincmd L
+set splitright
+
+map <c-Enter> :w<CR><leader>r
 
 " inoremap <silent>
 " function! s:my_cr_function()
