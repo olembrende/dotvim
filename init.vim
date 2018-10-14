@@ -1,4 +1,4 @@
-cd C:\Users\olema\Documents
+"cd C:\Users\olema\Documents
 
 let g:python3_host_prog='C:/Python37/python.exe'
 " let g:python3_host_prog='C:/ProgramData/Anaconda3/python.exe'
@@ -54,8 +54,10 @@ call plug#begin('~/appdata/local/nvim/plugged')
     "Python plugin
     Plug 'python-mode/python-mode', { 'branch': 'develop' }
 
-    " Trenger å fikse noe leader greier for å bruke easymotion
-    " "Plug 'Lokaltog/vim-easymotion'
+    Plug 'Lokaltog/vim-easymotion'
+
+    Plug 'haya14busa/incsearch.vim'
+    Plug 'osyo-manga/vim-anzu'
 
 " Initialize plugin system
 call plug#end()
@@ -89,8 +91,45 @@ let g:Tex_MultipleCompileFormats='pdf,bib,pdf'
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
-" NEOSNIPPET
-" Plugin key-mappings.
+
+
+" Use incsearch.vim for all search functions (with anzu for indication)
+map /  <Plug>(incsearch-forward)
+map ?  <Plug>(incsearch-backward)
+map g/ <Plug>(incsearch-stay)
+let g:incsearch#auto_nohlsearch = 1
+set hlsearch
+map n <Plug>(incsearch-nohl)<Plug>(anzu-n-with-echo)
+map N <Plug>(incsearch-nohl)<Plug>(anzu-N-with-echo)
+map * <Plug>(incsearch-nohl)<Plug>(anzu-star-with-echo)
+map # <Plug>(incsearch-nohl)<Plug>(anzu-sharp-with-echo)
+let g:anzu_status_format = "%p(%i/%l) %w"
+
+" Integrate incsearch and easymotion
+" https://github.com/Lokaltog/vim-easymotion/issues/146#issuecomment-75443473
+" Can use / for 'normal searching', at anytime its possible to use <space> to
+" pass search over to easymotion. To use spaces in search you need to apply
+" them via the regex approach \s.
+augroup incsearch-easymotion
+  autocmd!
+  autocmd User IncSearchEnter autocmd! incsearch-easymotion-impl
+augroup END
+augroup incsearch-easymotion-impl
+  autocmd!
+augroup END
+function! IncsearchEasyMotion() abort
+  autocmd incsearch-easymotion-impl User IncSearchExecute :silent! call EasyMotion#Search(0, 2, 0)
+  return "\<CR>"
+endfunction
+let g:incsearch_cli_key_mappings = {
+\   "\<Space>": {
+\       'key': 'IncsearchEasyMotion()',
+\       'noremap': 1,
+\       'expr': 1
+\   }
+\ }
+
+
 " Note: It must be "imap" and "smap".  It uses <Plug> mappings.
 " imap <C-k>     <Plug>(neosnippet_expand_or_jump)
 " smap <C-k>     <Plug>(neosnippet_expand_or_jump)
@@ -160,5 +199,29 @@ map <c-Enter> :w<CR><leader>r
 " endfunction
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
+" This unsets the 'last search pattern' register by hitting ;
+nnoremap ; :noh<CR>:<backspace>
 
-
+" Integrate incsearch and easymotion
+" https://github.com/Lokaltog/vim-easymotion/issues/146#issuecomment-75443473
+" Can use / for 'normal searching', at anytime its possible to use <space> to
+" pass search over to easymotion. To use spaces in search you need to apply
+" them via the regex approach \s.
+augroup incsearch-easymotion
+  autocmd!
+  autocmd User IncSearchEnter autocmd! incsearch-easymotion-impl
+augroup END
+augroup incsearch-easymotion-impl
+  autocmd!
+augroup END
+function! IncsearchEasyMotion() abort
+  autocmd incsearch-easymotion-impl User IncSearchExecute :silent! call EasyMotion#Search(0, 2, 0)
+  return "\<CR>"
+endfunction
+let g:incsearch_cli_key_mappings = {
+\   "\<Space>": {
+\       'key': 'IncsearchEasyMotion()',
+\       'noremap': 1,
+\       'expr': 1
+\   }
+\ }
