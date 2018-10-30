@@ -1,16 +1,15 @@
-"cd C:\Users\olema\Documents
+" cd ~\Documents
 
-let g:python3_host_prog='C:/Python37/python.exe'
+let g:python3_host_prog='C:\Python37\python.exe'
+
 " let g:python3_host_prog='C:/ProgramData/Anaconda3/python.exe'
 "
 " Specify a directory for plugins
 " - For Neovim: ~/.local/share/nvim/plugged
 " - Avoid using standard Vim directory names like 'plugin'
 " call plug#begin('~/.vim/plugged')
-call plug#begin('~/appdata/local/nvim/plugged')
+call plug#begin('~\appdata\local\nvim\plugged')
 
-	"LaTeX
-	Plug 'lervag/vimtex'
 
 	"Colorschemes
 	Plug 'flazz/vim-colorschemes'
@@ -31,7 +30,6 @@ call plug#begin('~/appdata/local/nvim/plugged')
 	" On-demand loading
 	Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
 	"Plug 'tpope/vim-fireplace', { 'for': 'clojure' }
-
 
 	"Neosnippet
 	if has('nvim')
@@ -59,15 +57,30 @@ call plug#begin('~/appdata/local/nvim/plugged')
     Plug 'haya14busa/incsearch.vim'
     Plug 'osyo-manga/vim-anzu'
 
+    function! DoRemote(arg)
+      UpdateRemotePlugins
+    endfunction
+
+    Plug 'daeyun/vim-matlab', { 'do': function('DoRemote') }
+
+	"LaTeX
+	Plug 'lervag/vimtex'
+
+    "Easy align
+    Plug 'junegunn/vim-easy-align'
+
+    " Change delimiters
+    Plug 'tpope/vim-surround'
+
 " Initialize plugin system
 call plug#end()
 
 " Spesifiser path til vimrc for å raskt kunne redigere.
 " :exe 'cd' base_path
-let base_path = "C:\\Users\\olemarbr\\AppData\\Local\\nvim"
+let base_path = "~\\AppData\\Local\\nvim"
 
 "NERDTree mappings
-silent! nmap <C-p> :NERDTreeToggle<CR>
+silent! nmap <C-p> :NERDTreeToggle <CR>
 silent! map <F3> :NERDTreeFind<CR>
 let g:NERDTreeMapActivateNode="<F3>"
 let g:NERDTreeMapPreview="<F4>"
@@ -91,7 +104,8 @@ let g:Tex_MultipleCompileFormats='pdf,bib,pdf'
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
-
+" let g:deoplete#sources#jedi#python_path='C:/Python37/python.exe'
+let g:deoplete#sources#jedi#python_path='C:/ProgramData/Anaconda3/python.exe'
 
 " Use incsearch.vim for all search functions (with anzu for indication)
 map /  <Plug>(incsearch-forward)
@@ -143,9 +157,9 @@ let g:UltiSnipsJumpForwardTrigger="<c-j>"
 let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 
 " If you want :UltiSnipsEdit to split your window.
-" let g:UltiSnipsEditSplit="vertical"
-let g:UltiSnipsEditSplit="horizontal"
-
+let g:UltiSnipsEditSplit="vertical"
+"let g:UltiSnipsEditSplit="horizontal"
+let g:UltiSnipsSnippetDirectories = [$HOME.'\AppData\Local\nvim\custom-snippets', 'UltiSnips']
 
 "Relative line numbers
 set number relativenumber
@@ -170,6 +184,9 @@ set autoindent
 set expandtab
 " set cursorline
 
+set colorcolumn=100
+
+
 " Pass a dictionary to set multiple options
 call deoplete#custom#option({
 \ 'auto_complete_delay': 0
@@ -185,13 +202,15 @@ nnoremap <C-H> <C-W><C-H>
 
 "PYTHON
 let g:pymode_python='python3'
+let g:pymode_virtualenv = 1
+let g:pymode_virtualenv_path='C:/ProgramData/Anaconda3/python.exe'
 " let g:pymode_viritualenv_path = "C:\ProgramData\Anaconda3"
 " Open split from Python mode to the right instead of below
 " autocmd BufEnter __run____doc__ :wincmd L
 autocmd BufEnter __run__,__doc__ :wincmd L
 set splitright
 
-map <c-Enter> :w<CR><leader>r
+" map <c-Enter> :w<CR><leader>r
 
 " inoremap <silent>
 " function! s:my_cr_function()
@@ -200,7 +219,7 @@ map <c-Enter> :w<CR><leader>r
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " This unsets the 'last search pattern' register by hitting ;
-nnoremap ; :noh<CR>:<backspace>
+" nnoremap ; :noh<CR>:<backspace>
 
 " Integrate incsearch and easymotion
 " https://github.com/Lokaltog/vim-easymotion/issues/146#issuecomment-75443473
@@ -225,3 +244,14 @@ let g:incsearch_cli_key_mappings = {
 \       'expr': 1
 \   }
 \ }
+
+augroup lang_matlab
+    autocmd!
+    autocmd FileType matlab setlocal commentstring=%\ %s
+augroup END
+
+" Start interactive EasyAlign in visual mode (e.g. vipga)
+xmap ga <Plug>(EasyAlign)
+
+" Start interactive EasyAlign for a motion/text object (e.g. gaip)
+nmap ga <Plug>(EasyAlign)
