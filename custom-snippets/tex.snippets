@@ -253,3 +253,24 @@ snippet alignl "Align environment with label"
 \end{align}
 $0
 endsnippet
+
+snippet cref "Clever reference"
+\cref{$1}$0
+endsnippet
+
+snippet fref "Figure reference"
+\cref{fig:$1}$0
+endsnippet
+
+snippet tref "Table reference"
+\cref{tab:$1}$0
+endsnippet
+
+snippet sref "Section reference"
+\cref{sec:$1}$0
+endsnippet
+
+snippet pdfc "PDF Comment"
+\pdfmarkupcomment[author=OMB,color=yellow]{${VISUAL:Text to show}}{${1:Text in comment}}$0
+endsnippet
+

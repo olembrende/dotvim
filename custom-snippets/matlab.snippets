@@ -1,4 +1,4 @@
-priority -50
+priority 0
 
 snippet switch "switch ... otherwise"
 switch ${1:n}
@@ -21,4 +21,58 @@ snip.rv = snip.basename or "class_name"`}
 		end${0}
 	end
 end
+endsnippet
+
+snippet setfun "Set function for class"
+function obj = set.${1: param}1(obj, value)
+	obj.$1 = value;
+end
+
+$0
+endsnippet
+
+snippet fun "Complete function with comments"
+function [${1:outputs}] = ${2:fname}(${3:inputs})
+	% $1 = $2($3)
+	% ${4:Description}
+	%
+	% INPUTS
+	% ${3/(,|$)/\t: \n\t%/g}
+	% OUTPUTS
+	% ${1/(,|$)/\t: \n\t%/g}
+	% Made by: Ole Martin Brende, InPhase Solutions AS
+	% Date: `date /t`
+	$0
+end % function $2
+endsnippet
+
+snippet inputParser "Input parser"
+p = inputParser;
+p.addParameter('${1:name}', ${2:0});
+p.addParameter('${3:name}', ${4:0});
+p.addParameter('${5:name}', ${6:0});
+
+p.parse(varargin{:});
+
+$1 = p.Results.$1;
+$3 = p.Results.$3;
+$5 = p.Results.$5;
+$0
+endsnippet
+
+snippet addParameter "Input parser parameter and parsing"
+p.addParameter('${1:name}', ${2:0});
+$1 = p.Results.$1;
+$0
+endsnippet
+
+snippet figsave "Save figure in fig and png"
+filename = ${1:get(get(gca, 'Title'), 'String')};
+savefig(${2:gcf}, filename);
+saveas($2, filename, 'png');
+$0
+endsnippet
+
+snippet tight "Set tight layout on a figure"
+set(${1:gca}, 'LooseInset', get($1, 'TightInset'));$0
 endsnippet
